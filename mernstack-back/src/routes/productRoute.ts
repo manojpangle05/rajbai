@@ -1,0 +1,38 @@
+import express from "express"
+
+import { authMiddleware, isAdmin } from "../middleware/authMiddleware.js";
+import { productImgResize, uploadPhoto } from "../middleware/uploadImages.js";
+
+import {
+    createProduct, getProduct,
+    getAllProducts, updateProduct,
+    deleteProduct, addToWishlist,
+    rating, uploadImages, deleteImages,
+    createCheckoutSession, createRaziropayOrder,
+    uploadFilesToS3, uploadCkImage,
+    deleteReview,
+    getOrderById
+} from "../controller/productController.js";
+
+
+const router = express.Router();
+
+
+router.post('/', authMiddleware, isAdmin, createProduct)
+router.post('/create-checkout-session', createCheckoutSession)
+router.post('/create-raziropay-session', createRaziropayOrder)
+router.post('/upload', authMiddleware, isAdmin, uploadPhoto.array('images', 10), uploadImages)
+router.post('/uploadCkImage', uploadPhoto.single('upload'), uploadCkImage)
+router.post('/upload-to-s3', uploadPhoto.array('images', 10), uploadFilesToS3)
+router.put('/wishlist', authMiddleware, addToWishlist);
+router.put('/rating', authMiddleware, rating)
+router.delete('/rating/:id', authMiddleware, deleteReview)
+router.put('/:id', authMiddleware, isAdmin, uploadPhoto.array('images', 10), updateProduct);
+router.delete('/:id', authMiddleware, isAdmin, deleteProduct);
+router.delete('/delete-img/:id', authMiddleware, isAdmin, deleteImages);
+router.get('/orders/:id', getOrderById)
+router.get('/', getAllProducts)
+router.get('/:id', getProduct);
+
+
+export default router;
