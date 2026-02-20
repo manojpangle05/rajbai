@@ -10,7 +10,7 @@ import { AppDispatch, RootState } from "../../Redux/Store"
 import { editPCategory, getCategories } from "../../Redux/Reducers/pcategory/pcategorySlice"
 
 import Dropzone from "react-dropzone"
-import { CloudUpload, X } from "lucide-react"
+import { CloudUpload } from "lucide-react"
 
 import { uploadImages, resetImages } from "../../Redux/Reducers/upload/uploadSlice"
 

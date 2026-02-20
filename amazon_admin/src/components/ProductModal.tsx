@@ -115,9 +115,11 @@ const ProductModal = ({ prod }: any) => {
   formData.append("existingImages", JSON.stringify(existingImages));
 
   // ✅ Send new uploaded files
-  newImages.forEach((file: File) => {
+  newImages.forEach((file: File | Image) => {
+  if (file instanceof File) {
     formData.append("images", file);
-  });
+  }
+});
 
   dispatch(editProduct({ id: prod?._id, data: formData }));
 
